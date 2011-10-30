@@ -5,7 +5,7 @@ see: http://dojotoolkit.org/license for details
 */
 
 /*
-this is direct port of Dojo's Deferred to jQuery, with some wrapper functions 
+this is direct port of Dojo's Deferred to jQuery, with some wrapper functions
 for jQuery's ajax functions
 
 by: Siegmund Führinger - http://sifu.io/ - http://twitter.com/0xx0
@@ -13,41 +13,41 @@ by: Siegmund Führinger - http://sifu.io/ - http://twitter.com/0xx0
 
 
 (function(){
-	var mutator = function(){};		
+	var mutator = function(){};
 	var freeze = Object.freeze || function(){};
 	// A deferred provides an API for creating and resolving a promise.
 	jQuery.Deferred = function(/*Function?*/canceller){
 	// summary:
 	//		Deferreds provide a generic means for encapsulating an asynchronous
-	// 		operation and notifying users of the completion and result of the operation. 
+	// 		operation and notifying users of the completion and result of the operation.
 	// description:
 	//		The jQuery.Deferred API is based on the concept of promises that provide a
 	//		generic interface into the eventual completion of an asynchronous action.
-	//		The motivation for promises fundamentally is about creating a 
-	//		separation of concerns that allows one to achieve the same type of 
-	//		call patterns and logical data flow in asynchronous code as can be 
-	//		achieved in synchronous code. Promises allows one 
-	//		to be able to call a function purely with arguments needed for 
-	//		execution, without conflating the call with concerns of whether it is 
-	//		sync or async. One shouldn't need to alter a call's arguments if the 
-	//		implementation switches from sync to async (or vice versa). By having 
-	//		async functions return promises, the concerns of making the call are 
-	//		separated from the concerns of asynchronous interaction (which are 
+	//		The motivation for promises fundamentally is about creating a
+	//		separation of concerns that allows one to achieve the same type of
+	//		call patterns and logical data flow in asynchronous code as can be
+	//		achieved in synchronous code. Promises allows one
+	//		to be able to call a function purely with arguments needed for
+	//		execution, without conflating the call with concerns of whether it is
+	//		sync or async. One shouldn't need to alter a call's arguments if the
+	//		implementation switches from sync to async (or vice versa). By having
+	//		async functions return promises, the concerns of making the call are
+	//		separated from the concerns of asynchronous interaction (which are
 	//		handled by the promise).
-	// 
-	//  	The jQuery.Deferred is a type of promise that provides methods for fulfilling the 
-	// 		promise with a successful result or an error. The most important method for 
-	// 		working with jQuery's promises is the then() method, which follows the 
+	//
+	//  	The jQuery.Deferred is a type of promise that provides methods for fulfilling the
+	// 		promise with a successful result or an error. The most important method for
+	// 		working with jQuery's promises is the then() method, which follows the
 	// 		CommonJS proposed promise API. An example of using a jQuery promise:
-	//		
+	//
 	//		| 	var resultingPromise = someAsyncOperation.then(function(result){
 	//		|		... handle result ...
 	//		|	},
 	//		|	function(error){
 	//		|		... handle error ...
 	//		|	});
-	//	
-	//		The .then() call returns a new promise that represents the result of the 
+	//
+	//		The .then() call returns a new promise that represents the result of the
 	// 		execution of the callback. The callbacks will never affect the original promises value.
 	//
 	//		The jQuery.Deferred instances also provide the following functions for backwards compatibility:
@@ -117,7 +117,7 @@ by: Siegmund Führinger - http://sifu.io/ - http://twitter.com/0xx0
 	//		|				renderDataitem(data[x]);
 	//		|			}
 	//		|			d.callback(true);
-	//		|		}catch(e){ 
+	//		|		}catch(e){
 	//		|			d.errback(new Error("rendering failed"));
 	//		|		}
 	//		|		return d;
@@ -144,7 +144,7 @@ by: Siegmund Führinger - http://sifu.io/ - http://twitter.com/0xx0
 	//		|					renderDataitem(data[x]);
 	//		|				}
 	//		|				d.callback(true);
-	//		|			}catch(e){ 
+	//		|			}catch(e){
 	//		|				d.errback(new Error("rendering failed"));
 	//		|			}
 	//		|		}, 100);
@@ -160,10 +160,10 @@ by: Siegmund Führinger - http://sifu.io/ - http://twitter.com/0xx0
 	//		handle the asynchronous case.
 		var result, finished, isError, head, nextListener;
 		var promise = this.promise = {};
-		
+
 		function complete(value){
 			if(finished){
-				throw new Error("This deferred has already been resolved");				
+				throw new Error("This deferred has already been resolved");
 			}
 			result = value;
 			finished = true;
@@ -198,7 +198,7 @@ by: Siegmund Führinger - http://sifu.io/ - http://twitter.com/0xx0
 						listener.deferred.resolve(result);
 					}
 				}
-			}	
+			}
 		}
 		// calling resolve will resolve the promise
 		this.resolve = this.callback = function(value){
@@ -208,12 +208,12 @@ by: Siegmund Führinger - http://sifu.io/ - http://twitter.com/0xx0
 			this.results = [value, null];
 			complete(value);
 		};
-		
-		
+
+
 		// calling error will indicate that the promise failed
 		this.reject = this.errback = function(error){
 			// summary:
-			//		Fulfills the Deferred instance as an error with the provided error 
+			//		Fulfills the Deferred instance as an error with the provided error
 			isError = true;
 			this.fired = 1;
 			complete(error);
@@ -230,7 +230,7 @@ by: Siegmund Führinger - http://sifu.io/ - http://twitter.com/0xx0
 			while(listener){
 				var progress = listener.progress;
 				progress && progress(update);
-				listener = listener.next;	
+				listener = listener.next;
 			}
 		};
 		this.addCallbacks = function(/*Function?*/callback, /*Function?*/errback){
@@ -240,34 +240,34 @@ by: Siegmund Führinger - http://sifu.io/ - http://twitter.com/0xx0
 		// provide the implementation of the promise
 		this.then = promise.then = function(/*Function?*/resolvedCallback, /*Function?*/errorCallback, /*Function?*/progressCallback){
 			// summary
-			// 		Adds a fulfilledHandler, errorHandler, and progressHandler to be called for 
-			// 		completion of a promise. The fulfilledHandler is called when the promise 
-			// 		is fulfilled. The errorHandler is called when a promise fails. The 
-			// 		progressHandler is called for progress events. All arguments are optional 
-			// 		and non-function values are ignored. The progressHandler is not only an 
-			// 		optional argument, but progress events are purely optional. Promise 
+			// 		Adds a fulfilledHandler, errorHandler, and progressHandler to be called for
+			// 		completion of a promise. The fulfilledHandler is called when the promise
+			// 		is fulfilled. The errorHandler is called when a promise fails. The
+			// 		progressHandler is called for progress events. All arguments are optional
+			// 		and non-function values are ignored. The progressHandler is not only an
+			// 		optional argument, but progress events are purely optional. Promise
 			// 		providers are not required to ever create progress events.
-			// 
-			// 		This function will return a new promise that is fulfilled when the given 
-			// 		fulfilledHandler or errorHandler callback is finished. This allows promise 
-			// 		operations to be chained together. The value returned from the callback 
-			// 		handler is the fulfillment value for the returned promise. If the callback 
+			//
+			// 		This function will return a new promise that is fulfilled when the given
+			// 		fulfilledHandler or errorHandler callback is finished. This allows promise
+			// 		operations to be chained together. The value returned from the callback
+			// 		handler is the fulfillment value for the returned promise. If the callback
 			// 		throws an error, the returned promise will be moved to failed state.
-			//	
+			//
 			// example:
 			// 		An example of using a CommonJS compliant promise:
   			//		|	asyncComputeTheAnswerToEverything().
 			//		|		then(addTwo).
 			//		|		then(printResult, onError);
-  			//		|	>44 
-			// 		
+  			//		|	>44
+			//
 			var returnDeferred = progressCallback == mutator ? this : new jQuery.Deferred(promise.cancel);
 			var listener = {
-				resolved: resolvedCallback, 
-				error: errorCallback, 
-				progress: progressCallback, 
+				resolved: resolvedCallback,
+				error: errorCallback,
+				progress: progressCallback,
 				deferred: returnDeferred
-			}; 
+			};
 			if(nextListener){
 				head = head.next = listener;
 			}
@@ -311,7 +311,7 @@ by: Siegmund Führinger - http://sifu.io/ - http://twitter.com/0xx0
 
     jQuery.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback, /*Function?*/progressHandler){
         // summary:
-        //		This provides normalization between normal synchronous values and 
+        //		This provides normalization between normal synchronous values and
         //		asynchronous promises, so you can interact with them in a common way
         //	example:
         //		|	function printFirstAndList(items){
@@ -331,7 +331,7 @@ by: Siegmund Führinger - http://sifu.io/ - http://twitter.com/0xx0
         //		And now all three of his functions can be used sync or async.
         //		|	printFirstAndLast([1,2,3,4]) will work just as well as
         //		|	printFirstAndLast(jQuery.xhrGet(...));
-        
+
         if(promiseOrValue && typeof promiseOrValue.then === "function"){
             return promiseOrValue.then(callback, errback, progressHandler);
         }

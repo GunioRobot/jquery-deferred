@@ -62,14 +62,14 @@ by: Siegmund Führinger - http://sifu.io/ - http://twitter.com/0xx0
                 if(finished === list.length){
                     self.resolve(resultList);
                 }
-                
+
             }
         });
     };
     jQuery.DeferredList.prototype = new jQuery.Deferred();
 
     jQuery.DeferredList.prototype.gatherResults= function(deferredList){
-        // summary:	
+        // summary:
         //	Gathers the results of the deferreds for packaging
         //	as the parameters to the Deferred Lists' callback
 
